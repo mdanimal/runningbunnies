@@ -1,21 +1,25 @@
-name: Deploy to WordPress
+name: Deploy to Stellar
 
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Deploy to WordPress
-        uses: [deployment-action]
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SFTP
+        uses: wangyucode/sftp-upload-action@v2.0.2
         with:
-          host: ${{ secrets.WORDPRESS_HOST }}
-          username: ${{ secrets.WORDPRESS_USERNAME }}
-          password: ${{ secrets.WORDPRESS_PASSWORD }}
-          # Additional deployment parameters
+          host: ${{ secrets.STELLAR_HOST }}
+          port: ${{ secrets.STELLAR_PORT }}
+          username: ${{ secrets.STELLAR_USERNAME }}
+          password: ${{ secrets.STELLAR_PASSWORD }}
+          localDir: ./
+          remoteDir: /public_html
+          syncDelete: true
